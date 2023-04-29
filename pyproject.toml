@@ -9,6 +9,7 @@ packages = [{include = "rss_feed_translator"}]
 [tool.poetry.dependencies]
 python = "^3.9"
 flask = "^2.3.1"
+translatepy = "^2.3"
 
 
 [build-system]
