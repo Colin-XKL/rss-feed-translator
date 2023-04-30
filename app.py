@@ -28,41 +28,40 @@ def feed_parse_test():
     test_xml_fp = '/Users/colin/Downloads/tttt/rss20.xml'
     with open(test_xml_fp, 'r') as f:
         xml_str = f.read()
-        parsed = xmltodict.parse(xml_str)
-        # pprint.pprint(parsed)
-
-        if parsed.get('rss', None):  # rss
-            parsed['rss']['channel']['title'] = "Hello Feed"
-            N = parsed['rss']['channel']['item']
-
-            if hasattr(N, '__len__') and (not isinstance(N, str)):
-                for item in N:
-                    # pprint.pprint(item)
-
-                    item['title'] = translate_html(item['title'])
-                    try:
-                        if check_if_only_has_link(item['description']):
-                            # ignore for only link
-                            continue
-                        else:
-                            item['description'] = translate_html(item['description'])
-                    except xml.parsers.expat.ExpatError:
-                        pass
-
-            ret = xmltodict.unparse(parsed)
-        else:
-            ret = "Unimplemented yet"
-
-        # print(ret)
+        ret = translate_feed(xml_str)
 
     return ret
 
 
-def check_if_only_has_link(input_html: str) -> bool:
-    print("item")
-    pprint.pprint(input_html)
-    item = xmltodict.parse(input_html)
-    pprint.pprint(item)
+def translate_feed(xml_str: str) -> str:
+    parsed = xmltodict.parse(xml_str)
+    # pprint.pprint(parsed)
+    if parsed.get('rss', None):  # rss
+        parsed['rss']['channel']['title'] = "Hello Feed"
+        N = parsed['rss']['channel']['item']
+
+        if hasattr(N, '__len__') and (not isinstance(N, str)):
+            for item in N:
+                # pprint.pprint(item)
+
+                item['title'] = translate_html(item['title'])
+                try:
+                    if check_if_only_has_link(item['description']):
+                        # ignore for only link
+                        continue
+                    else:
+                        item['description'] = translate_html(item['description'])
+                except xml.parsers.expat.ExpatError:
+                    pass
+
+        ret = xmltodict.unparse(parsed)
+    else:  # else atom feed etc.
+        ret = "Unimplemented yet"
+    return ret
+
+
+def check_if_only_has_link(input_xml: str) -> bool:
+    item = xmltodict.parse(input_xml)
     item.pop('a', None)
     return len(item) == 0
 
