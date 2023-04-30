@@ -1,5 +1,6 @@
 import logging
 import pprint
+import xml.parsers.expat
 
 import xmltodict
 from flask import Flask
@@ -36,15 +37,34 @@ def feed_parse_test():
 
             if hasattr(N, '__len__') and (not isinstance(N, str)):
                 for item in N:
-                    pprint.pprint(item)
+                    # pprint.pprint(item)
+
                     item['title'] = translate_html(item['title'])
+                    try:
+                        if check_if_only_has_link(item['description']):
+                            # ignore for only link
+                            continue
+                        else:
+                            item['description'] = translate_html(item['description'])
+                    except xml.parsers.expat.ExpatError:
+                        pass
 
             ret = xmltodict.unparse(parsed)
         else:
             ret = "Unimplemented yet"
 
-    # print(ret)
+        # print(ret)
+
     return ret
+
+
+def check_if_only_has_link(input_html: str) -> bool:
+    print("item")
+    pprint.pprint(input_html)
+    item = xmltodict.parse(input_html)
+    pprint.pprint(item)
+    item.pop('a', None)
+    return len(item) == 0
 
 
 def translate_html(input_html, translator_name="deepl", from_lang="auto", target_lang="Chinese"):
