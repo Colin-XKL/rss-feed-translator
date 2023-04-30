@@ -1,5 +1,7 @@
 import logging
+import pprint
 
+import xmltodict
 from flask import Flask
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
@@ -17,6 +19,32 @@ def translate_test():
     logging.info("api hit")
     translated = translate_html("""<div><h1>Hello world!</h1><p>keep it up, you are awesome</p></div>""")
     return translated
+
+
+@app.route('/feed_parse_test')
+def feed_parse_test():
+    logging.info("feed parse test hit.")
+    test_xml_fp = '/Users/colin/Downloads/tttt/rss20.xml'
+    with open(test_xml_fp, 'r') as f:
+        xml_str = f.read()
+        parsed = xmltodict.parse(xml_str)
+        # pprint.pprint(parsed)
+
+        if parsed.get('rss', None):  # rss
+            parsed['rss']['channel']['title'] = "Hello Feed"
+            N = parsed['rss']['channel']['item']
+
+            if hasattr(N, '__len__') and (not isinstance(N, str)):
+                for item in N:
+                    pprint.pprint(item)
+                    item['title'] = translate_html(item['title'])
+
+            ret = xmltodict.unparse(parsed)
+        else:
+            ret = "Unimplemented yet"
+
+    # print(ret)
+    return ret
 
 
 def translate_html(input_html, translator_name="deepl", from_lang="auto", target_lang="Chinese"):

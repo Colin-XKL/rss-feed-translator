@@ -10,6 +10,7 @@ packages = [{include = "rss_feed_translator"}]
 python = "^3.9"
 flask = "^2.3.1"
 translatepy = "^2.3"
+xmltodict = "^0.13.0"
 
 
 [build-system]
