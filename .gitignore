@@ -1,0 +1,13 @@
+
+# IDE
+.idea
+.vscode
+
+# OS specific
+
+# development relevant
+.env
+
+
+# cache and tmp
+**/*.pyc
