@@ -6,7 +6,8 @@ from typing import Callable
 
 import requests
 import xmltodict
-from flask import Flask, request, Response
+from flask import Flask, request, Response, render_template
+from functools import lru_cache
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
 
@@ -14,8 +15,8 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+def home_page():
+    return render_template('index.html')
 
 
 @app.route('/translate_test')
@@ -29,12 +30,16 @@ def translate_test():
 def fetch_and_translate_feed():
     logging.info("fetch remote feed")
     feed_url = request.args.get('feed_url')
+    translator = request.args.get('translator') or "aliyun"
+    source_lang = request.args.get("source_lang") or "auto"
+    target_lang = request.args.get("target_lang") or "zh"
+
     resp = requests.get(feed_url)
     # print(resp.content)
     xml_content = resp.content
 
     # pprint.pprint(d)
-    ret = translate_feed(xml_content)
+    ret = translate_feed(xml_content, translator=translator, source_lang=source_lang, target_lang=target_lang)
 
     return Response(xmltodict.unparse(ret), mimetype='text/xml')
 
@@ -46,7 +51,7 @@ def feed_parse_test():
     test_xml_fp = '/Users/colin/Downloads/tttt/feed.xml'
     with open(test_xml_fp, 'r') as f:
         xml_str = f.read()
-        ret = translate_feed(xml_str)
+        ret = translate_feed(xml_str, translator='aliyun', source_lang="auto", target_lang='zh')
 
     return ret
 
@@ -62,11 +67,11 @@ def check_is_dict(item) -> bool:
 def recursive_find_node_and_apply(target: dict, field: str, func: Callable):
     if check_is_dict(target):
         for k in target:
-            if target[k] and k == field:
+            if target.get(k, None) and k == field:
                 if check_is_array(target[k]):
                     logging.warning("unexpected type, make sure the field always point to a leaf node.")
                 elif check_is_dict(target[k]):
-                    if target[k]['#text']:
+                    if target[k].get('#text', None):
                         # special handling for xml #text attr
                         target[k]['#text'] = func(target[k]['#text'])
                     else:
@@ -77,8 +82,8 @@ def recursive_find_node_and_apply(target: dict, field: str, func: Callable):
                 continue
 
             target[k] = recursive_find_node_and_apply(target[k], field, func)
-    elif check_is_array(target):
 
+    elif check_is_array(target):
         for index, item in enumerate(target):
             target[index] = recursive_find_node_and_apply(item, field, func)
     else:  # is str or something like that
@@ -88,26 +93,29 @@ def recursive_find_node_and_apply(target: dict, field: str, func: Callable):
     return target
 
 
-def check_and_manipulate(val):
-    try:
-        if check_is_dict(val) and val.get("#text", None):
+def get_find_nodes_and_translate_func(translator: str, source_lang: str, target_lang: str):
+    def check_and_manipulate(val):
+        try:
+            if check_is_dict(val) and val.get("#text", None):
+                pass
+            elif check_if_only_has_link(val):
+                return val
+            else:
+                # return maniputate_func(val)
+                return translate_html(val)
+        except xml.parsers.expat.ExpatError:
             pass
-        elif check_if_only_has_link(val):
-            return val
-        else:
-            # return maniputate_func(val)
-            return translate_html(val)
-    except xml.parsers.expat.ExpatError:
-        pass
-    except TypeError:
-        logging.warning("type error")
-        # logging.warning(val)
-        logging.warning(type(val))
+        except TypeError:
+            logging.warning("type error")
+            # logging.warning(val)
+            logging.warning(type(val))
 
-    return translate_html(val)
+        return translate_html(val, translator_name=translator, from_lang=source_lang, target_lang=target_lang)
+
+    return check_and_manipulate
 
 
-def translate_feed(xml_str: str | bytes) -> dict:
+def translate_feed(xml_str: str | bytes, translator: str, source_lang: str, target_lang: str) -> dict:
     parsed = xmltodict.parse(xml_str)
     # pprint.pprint(parsed)
     if parsed.get('rss', None) or parsed.get('feed', None):  # rss or atom
@@ -118,7 +126,9 @@ def translate_feed(xml_str: str | bytes) -> dict:
         field_to_translate = ["title", "content", "description", "summary"]
         ret = parsed
         for field in field_to_translate:
-            ret = recursive_find_node_and_apply(ret, field, check_and_manipulate)
+            ret = recursive_find_node_and_apply(ret, field, get_find_nodes_and_translate_func(source_lang=source_lang,
+                                                                                              target_lang=target_lang,
+                                                                                              translator=translator))
 
         #
         # from jsonpath_ng import jsonpath, parse
@@ -202,7 +212,8 @@ def check_if_only_has_link(input_xml: str) -> bool:
 
 # TODO more translation backend
 # maybe paddle nlp
-def translate_html(input_html, translator_name="", from_lang="auto", target_lang="Chinese"):
+@lru_cache(maxsize=128, typed=True)
+def translate_html(input_html, translator_name="aliyun", from_lang="auto", target_lang="zh"):
     logging.info(f"translating using [{translator_name}] from [{from_lang}] to [{target_lang}]...")
 
     if translator_name == "deepl":
@@ -211,6 +222,14 @@ def translate_html(input_html, translator_name="", from_lang="auto", target_lang
         ret = deep_translator.translate_html(html=input_html, source_language=from_lang,
                                              destination_language=target_lang)
         logging.info(ret)
+        return ret
+    elif translator_name == "aliyun":
+        from lib.translators.aliyun import AliyunTranslator
+        aliyun_translator = AliyunTranslator()
+
+        ret = aliyun_translator.translate_html(input_html=input_html, source_language=from_lang,
+                                               target_language=target_lang)
+        logging.debug(ret)
         return ret
 
     else:

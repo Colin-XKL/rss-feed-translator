@@ -64,12 +64,12 @@ class AliyunTranslator:
         logging.info("load translator aliyun done.")
 
     def translate_html(self,
-                       source_text: str = '<html><p>hello world</p></html>',
+                       input_html: str = '<html><p>hello world</p></html>',
                        source_language: str = 'auto',
                        target_language: str = 'zh',
                        ) -> str:
         translate_general_request = alimt_20181012_models.TranslateGeneralRequest(
-            source_text=source_text,
+            source_text=input_html,
             source_language=source_language,
             target_language=target_language,
             scene='general',
@@ -97,9 +97,9 @@ class AliyunTranslator:
             logging.warning(err)
         return default_result_html_when_error(self.translator_name)
 
-
-if __name__ == '__main__':
-    client = AliyunTranslator()
-    test_html = "<p>Hey Jude, don't be <b>afraid</b>Sing a sad song and you'll feel <p>better</p></p>"
-    ret = client.translate_html(test_html)
-    print(ret)
+#
+# if __name__ == '__main__':
+#     client = AliyunTranslator()
+#     test_html = "<p>Hey Jude, don't be <b>afraid</b>Sing a sad song and you'll feel <p>better</p></p>"
+#     ret = client.translate_html(test_html)
+#     print(ret)
