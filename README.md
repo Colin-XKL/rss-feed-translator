@@ -32,6 +32,14 @@ This project is used by the following projects:
 - DeelL (Free, slow)
 - Aliyun (Token needed, fast, free resource available)
 
+## Screenshots
+
+![Compare: original feed and translated feed](https://blog-1301127393.file.myqcloud.com/BlogImgs/202305140149482.png)
+
+![Compare: translated feed in Reeder app](https://blog-1301127393.file.myqcloud.com/BlogImgs/202305140149484.png)
+
+![Homepage of the project](https://blog-1301127393.file.myqcloud.com/BlogImgs/202305140149485.png)
+
 ## Roadmap
 
 - Additional translation backend support
