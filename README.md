@@ -27,6 +27,11 @@ This project is used by the following projects:
 
 - RSS Man X
 
+## Currently supported translator
+
+- DeelL (Free, slow)
+- Aliyun (Token needed, fast, free resource available)
+
 ## Roadmap
 
 - Additional translation backend support
