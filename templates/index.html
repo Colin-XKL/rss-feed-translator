@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RSS Feed Translator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<section class="section">
+    <div class="container block">
+        <h1 class="title">
+            RSS Feed Translator </h1>
+        <p class="subtitle">
+            Read the feed from <strong>all over the world</strong>!
+        </p>
+    </div>
+
+    <div class=" container block">
+        <div class="notification">
+            <h2><b>How to use:</b></h2>
+            <li>Input your feed url in the box, click button
+            </li>
+            <li>Just paste the new url in your favourite rss reader,
+            </li>
+            <li>And vola! The articles is now in your
+                just enjoy the content and the moment.
+            </li>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="min-height: 600px">
+    <form class="container block" id="main-form">
+        <div class="field is-grouped ">
+            <div class="control is-expanded">
+                <label for="feed-url">
+                    <input placeholder="input feed url here" id="feed-url" name="feed-url" class="input is-primary"
+                           type="text"/>
+                </label>
+            </div>
+
+            <div class="control">
+                <button type="submit" class="button is-success">
+                    Generate
+                </button>
+            </div>
+        </div>
+
+        <div class="field is-grouped is-grouped-multiline">
+            <div class="control">
+                <label class="label" for="translator">Translator:</label>
+                <div class="select is-small" style="max-width: 15rem">
+                    <select id="translator" name="translator">
+                        <option value="deepl">Deep L</option>
+                        <option value="aliyun">Aliyun</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control" style="max-width: 15rem">
+                <label class="label" for="source-lang">Source Language</label>
+                <input placeholder="lang code, default:auto" id="source-lang" name="source-lang" class="input is-small"
+                       type="text"/>
+            </div>
+            <div class="control" style="max-width: 15rem">
+                <label class="label" for="target-lang">Target Language</label>
+                <input placeholder="lang code, default:zh" id="target-lang" name="target-lang" class="input is-small"
+                       type="text"/>
+            </div>
+        </div>
+    </form>
+
+    <div class="container block">
+        <h2>Generated URL Here</h2>
+        <p id='result' class="is-info">click the button to generate</p>
+    </div>
+
+</section>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>
+            <strong>RSS Feed Translator</strong> by <a href="https://blog.colinx.one">Colin X</a>. The source code is
+            licensed
+            <a href="https://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+            is licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+        </p>
+    </div>
+</footer>
+</body>
+<script>
+    const form = document.getElementById('main-form')
+
+    const feedTranslateApiEndpoint = "/translate"
+
+    const isValidUrl = urlString => {
+        try {
+            return Boolean(new URL(urlString));
+        } catch (e) {
+            return false;
+        }
+    }
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const feedUrl = form.elements["feed-url"].value.toString().trim()
+        const translator = form.elements["translator"].value
+        const sourceLang = form.elements["source-lang"].value.toString().trim()
+        const targetLang = form.elements['target-lang'].value.toString().trim()
+
+        if (!feedUrl || !isValidUrl(feedUrl)) {
+            document.getElementById('result').innerHTML = "<p class='has-text-danger'>Input a valid URL first!</p>"
+            return
+        }
+
+        const resultUri = new URL(feedTranslateApiEndpoint, window.location.origin,)
+        resultUri.searchParams.set("translator", translator)
+        resultUri.searchParams.set('feed_url', feedUrl)
+        resultUri.searchParams.set('source_lang', sourceLang)
+        resultUri.searchParams.set('target_lang', targetLang)
+
+
+        document.getElementById('result').innerHTML = `<p class="has-text-primary"><a target="_blank" href="${resultUri.href}">${resultUri.href}</a></resultUri></a></p>`
+
+
+    })
+</script>
+</html>
