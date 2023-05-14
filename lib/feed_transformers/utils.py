@@ -14,7 +14,7 @@ def translate_feed(xml_str: str | bytes, translator: str, source_lang: str, targ
     # pprint.pprint(parsed)
     if parsed.get('rss', None) or parsed.get('feed', None):  # rss or atom
 
-        field_to_translate = ["title", "content", "description", "summary"]
+        field_to_translate = ["title", "content", "description", "summary", "content:encoded"]
         ret = parsed
         for field in field_to_translate:
             ret = recursive_find_node_and_apply(ret, field, get_find_nodes_and_translate_func(source_lang=source_lang,
