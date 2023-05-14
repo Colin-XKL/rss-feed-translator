@@ -137,10 +137,14 @@ python3 ./app.py
 在项目根目录新建`.env`文件, 填入相关配置项即可
 
 ```dotenv
-ALIYUN_ACCESS_KEY_ID=xxxxx
-ALIYUN_ACCESS_KEY_SECRET=xxxxxx
+ALIYUN_ACCESS_KEY_ID="xxxxx"
+ALIYUN_ACCESS_KEY_SECRET="xxxxxx"
 ```
 
+
+一些可用来测试的feed:
+- https://feeds.feedburner.com/visualcapitalist
+- https://pytorch.org/feed.xml
 ## 协议
 
 [MIT](https://choosealicense.com/licenses/mit/)

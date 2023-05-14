@@ -18,6 +18,11 @@ AccessKey管理页(页面标题为访问控制), 选择用户选项卡新建用�
 
 将`AccessKey ID`和`AccessKey Secret`填入环境变量, 并且指定translator为`aliyun`即可
 
+```dotenv
+ALIYUN_ACCESS_KEY_ID="xxxxx"
+ALIYUN_ACCESS_KEY_SECRET="xxxxxx"
+```
+
 ## 传送门
 
 - [阿里云RAM访问控制页](https://ram.console.aliyun.com/users)

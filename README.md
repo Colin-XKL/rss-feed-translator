@@ -15,8 +15,26 @@ Translate your rss and atom feed in an easy way.
 
 ## Installation
 
-Docker image is on the way...
+Docker image is available [here](https://github.com/Colin-XKL/rss-feed-translator/pkgs/container/rss-feed-translator)
 
+```shell
+sudo docker run -d --name rss-feed-translator -p 10050:5000 ghcr.io/colin-xkl/rss-feed-translator:v1.0.0
+```
+docker compose example
+
+```yaml
+version: '3.3'
+services:
+    rss-feed-translator:
+        image: 'ghcr.io/colin-xkl/rss-feed-translator:v1.0.0'
+        container_name: feed-translator
+        ports:
+            - '10050:5000'
+        environment:
+            - ALIYUN_ACCESS_KEY_ID=xxxxx
+            - ALIYUN_ACCESS_KEY_SECRET=xxxxxx
+        restart: always
+```
 ## Run Locally
 
 Clone the project, and run app.py
