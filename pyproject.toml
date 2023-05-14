@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "rss-feed-translator"
-version = "0.1.0"
-description = ""
+version = "1.0.0"
+description = "Translate your rss and atom feed in an easy way."
 authors = ["colin <Colin_XKL@outlook.com>"]
 readme = "README.md"
 
