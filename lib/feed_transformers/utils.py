@@ -26,7 +26,20 @@ def translate_feed(xml_str: str | bytes, translator: str, source_lang: str, targ
 
 
 def get_find_nodes_and_translate_func(translator: str, source_lang: str, target_lang: str):
+    """
+    闭包, 根据指定的翻译参数, 返回一个在XML DOM中进行查询和翻译等的函数
+    :param translator:
+    :param source_lang:
+    :param target_lang:
+    :return:
+    """
+
     def check_and_manipulate(val):
+        """
+        在XML的DOM中寻找节点并操作
+        :param val:
+        :return:
+        """
         try:
             if check_is_dict(val) and val.get("#text", None):
                 pass
@@ -62,6 +75,13 @@ def check_is_dict(item) -> bool:
 
 
 def recursive_find_node_and_apply(target: dict, field: str, func: Callable):
+    """
+    遍历XML的DOM, 并根据传入的函数参数去操作指定的DOM节点
+    :param target:
+    :param field:
+    :param func:
+    :return:
+    """
     if check_is_dict(target):
         for k in target:
             if target.get(k, None) and k == field:

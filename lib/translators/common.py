@@ -4,7 +4,7 @@ from functools import lru_cache
 
 # TODO more translation backend
 # maybe paddle nlp
-@lru_cache(maxsize=128, typed=True)
+@lru_cache(maxsize=1024, typed=True)
 def translate_html(input_html, translator_name="aliyun", from_lang="auto", target_lang="zh"):
     logging.info(f"translating using [{translator_name}] from [{from_lang}] to [{target_lang}]...")
 
