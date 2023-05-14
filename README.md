@@ -30,7 +30,7 @@ This project is used by the following projects:
 ## Currently supported translator
 
 - DeelL (Free, slow)
-- Aliyun (Token needed, fast, free resource available)
+- Aliyun (Token needed, fast, free tier available)
 
 ## Screenshots
 

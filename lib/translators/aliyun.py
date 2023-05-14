@@ -78,17 +78,16 @@ class AliyunTranslator:
         runtime = util_models.RuntimeOptions()
         try:
             # 复制代码运行请自行打印 API 的返回值
-            ret = self.client.translate_general_with_options(translate_general_request, runtime)
-            resp_data = ret.body.data
-
-            if ret.body.code == "200":
+            resp = self.client.translate_general_with_options(translate_general_request, runtime)
+            resp_data = resp.body.data
+            if resp.body.code == "200":
                 result_html = resp_data.translated
                 result_word_count = resp_data.word_count
                 if int(result_word_count) > Aliyun_Translator_Word_Limit:
                     logging.warning("too many word for aliyun translator")
                 return result_html
             else:
-                logging.error(f"ERR: code {ret.body.code} msg {ret.body.message}")
+                logging.error(f"ERR: code {resp.body.code} msg {resp.body.message}")
                 logging.error(f"reference translator's doc for help. link:{Aliyun_Translator_Error_Code_Doc}")
             logging.debug("resp data")
             logging.debug(resp_data)
@@ -97,7 +96,7 @@ class AliyunTranslator:
             logging.warning(err)
         return default_result_html_when_error(self.translator_name)
 
-#
+
 # if __name__ == '__main__':
 #     client = AliyunTranslator()
 #     test_html = "<p>Hey Jude, don't be <b>afraid</b>Sing a sad song and you'll feel <p>better</p></p>"
