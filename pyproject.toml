@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["colin <Colin_XKL@outlook.com>"]
 readme = "README.md"
-packages = [{include = "rss_feed_translator"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
