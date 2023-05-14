@@ -8,7 +8,7 @@
 
 ## 特性
 
-- 支持RSS 和 ATOM类型的feed
+- 支持 RSS 和 ATOM 类型的feed ([什么是RSS - 知乎](https://www.zhihu.com/question/384290217))
 - 支持多种语言间的互相翻译
 - 支持自定义翻译平台的密钥, 以便获得更好的翻译体验
 - 默认调用免费的翻译平台接口, 你可以快速上手试用
@@ -33,6 +33,9 @@ poetry install
 # 运行
 python3 app.py
 ```
+
+打开项目主页(默认绑定到`5000`端口, 本地运行地址为`http://localhost:5000`), 输入待翻译的feed 地址,点击按钮即可自动生成翻译后的feed的链接.
+链接默认访问自身的api接口去获取和翻译 feed 内容
 
 ## 当前支持的翻译平台
 
@@ -62,7 +65,7 @@ reeder app中查看翻译后的feed
 
 ### 本地开发环境
 
-安装好Python3 环境, 建议的版本Python >=3.9  
+安装好Python3 环境, 建议的版本Python >=3.9
 
 根据实际情况, 配置pip镜像源以避免下载速度太慢  [清华pypi镜像传送门](https://mirrors.tuna.tsinghua.edu.cn/help/pypi/)
 
@@ -71,7 +74,9 @@ reeder app中查看翻译后的feed
 Idea, PyCharm 配置代理可[参考这里](https://learnku.com/articles/47061)
 
 #### 1. 安装poetry (包管理工具)
+
 #### 1.a 直接安装
+
 ```powershell
 (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
 ```
@@ -96,6 +101,7 @@ irm get.scoop.sh -Proxy 'http://<ip:port>' | iex
 ```
 
 (可选) 安装aria2 组件来启用并行下载, 加速软件包安装
+
 ```shell
 scoop install aria2
 ```
@@ -106,7 +112,7 @@ scoop install aria2
 scoop install poetry
 ```
 
-#### 2. 安装依赖的软件包
+### 2. 安装依赖的软件包
 
 ```shell
 # 下载本项目
@@ -116,11 +122,24 @@ cd rss-feed-translator
 
 poetry install
 ```
+
 ### 3. 运行项目
+
 ```shell
 python3 ./app.py
 ```
 
+### 4. 配置环境变量和翻译平台的Token
+
+部分翻译平台(如阿里云)需要提供AccessKey ID 和AccessKey Secret 才可访问API.
+可以参考[阿里云翻译配置说明](docs/config_translators/aliyun.md)
+
+在项目根目录新建`.env`文件, 填入相关配置项即可
+
+```dotenv
+ALIYUN_ACCESS_KEY_ID=xxxxx
+ALIYUN_ACCESS_KEY_SECRET=xxxxxx
+```
 
 ## 协议
 
