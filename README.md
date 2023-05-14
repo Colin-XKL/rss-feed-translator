@@ -2,6 +2,8 @@
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
+English | [中文说明](./README.zh-CN.md)
+
 Translate your rss and atom feed in an easy way.
 
 ## Features
