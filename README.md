@@ -1,10 +1,8 @@
 # rss-feed-translator
 
-Translate your rss and atom feed in an easy way.
-
-## Badges
-
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+
+Translate your rss and atom feed in an easy way.
 
 ## Features
 
@@ -20,6 +18,19 @@ Docker image is on the way...
 ## Run Locally
 
 Clone the project, and run app.py
+
+```shell
+# update pip and install poetry
+# ensure use python3
+pip install -U pip setuptools
+pip install poetry
+
+# install dependencies
+poetry install
+
+# run
+python3 app.py
+```
 
 ## Used By
 
