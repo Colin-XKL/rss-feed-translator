@@ -56,6 +56,72 @@ reeder app中查看翻译后的feed
 
 - 支持更多翻译模式, 比如原文和译文分段穿插
 
+## 如何参与开发与贡献
+
+下文以windows系统为例讲解如何参与本项目的开发
+
+### 本地开发环境
+
+安装好Python3 环境, 建议的版本Python >=3.9  
+
+根据实际情况, 配置pip镜像源以避免下载速度太慢  [清华pypi镜像传送门](https://mirrors.tuna.tsinghua.edu.cn/help/pypi/)
+
+命令行运行命令时如果需要配置代理可参考[这篇文章](https://juejin.cn/post/7130206938919927838)
+
+Idea, PyCharm 配置代理可[参考这里](https://learnku.com/articles/47061)
+
+#### 1. 安装poetry (包管理工具)
+#### 1.a 直接安装
+```powershell
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
+```
+
+如果你使用的是应用商店版的python ,  `py` 更换为 `python`
+
+#### 1.b 通过scoop 安装poetry [推荐]
+
+scoop 是一款windows 上的包管理工具, 可以像Linux 的apt/yum 和Mac 上的brew一样便捷地安装所需的软件包及其依赖
+
+[官方文档安装scoop](https://github.com/ScoopInstaller/Install#readme)
+
+[中文安装scoop教程](https://sspai.com/post/52496)
+
+```shell
+# 启用远程安装软件包的权限
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+irm get.scoop.sh | iex
+# 如果在墙内速度太慢可以手动指定代理
+irm get.scoop.sh -Proxy 'http://<ip:port>' | iex
+```
+
+(可选) 安装aria2 组件来启用并行下载, 加速软件包安装
+```shell
+scoop install aria2
+```
+
+安装poetry组件
+
+```shell
+scoop install poetry
+```
+
+#### 2. 安装依赖的软件包
+
+```shell
+# 下载本项目
+git clone https://github.com/Colin-XKL/rss-feed-translator.git
+
+cd rss-feed-translator
+
+poetry install
+```
+### 3. 运行项目
+```shell
+python3 ./app.py
+```
+
+
 ## 协议
 
 [MIT](https://choosealicense.com/licenses/mit/)
