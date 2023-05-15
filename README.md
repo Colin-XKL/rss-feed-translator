@@ -57,10 +57,10 @@ python3 app.py
 
 **common environment variables:**
 
-- `FLASK_DEBUG` true or false to enable debug
-- `LOGGING_LEVEL` DEBUG|INFO|WARNING|ERROR|CRITICAL
-- `PORT` default 6000
-- `SENTRY_DSN` set this for use sentry to track errors
+- **FLASK_DEBUG** `true` or `false` to enable debug
+- **LOGGING_LEVEL** `DEBUG`|`INFO`|`WARNING`|`ERROR`|`CRITICAL`
+- **PORT** default `6000`
+- **SENTRY_DSN** set this for use sentry to track errors
 
 **translation platforms tokens env vars:**   
 reference the detail documents in the  `docs` dir of this repo.
