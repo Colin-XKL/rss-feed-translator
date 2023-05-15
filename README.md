@@ -20,21 +20,23 @@ Docker image is available [here](https://github.com/Colin-XKL/rss-feed-translato
 ```shell
 sudo docker run -d --name rss-feed-translator -p 10050:6000 ghcr.io/colin-xkl/rss-feed-translator:v1.0.0
 ```
+
 docker compose example
 
 ```yaml
 version: '3.3'
 services:
-    rss-feed-translator:
-        image: 'ghcr.io/colin-xkl/rss-feed-translator:v1.0.0'
-        container_name: feed-translator
-        ports:
-            - '10050:6000'
-        environment:
-            - ALIYUN_ACCESS_KEY_ID=xxxxx
-            - ALIYUN_ACCESS_KEY_SECRET=xxxxxx
-        restart: always
+  rss-feed-translator:
+    image: 'ghcr.io/colin-xkl/rss-feed-translator:v1.0.0'
+    container_name: feed-translator
+    ports:
+      - '10050:6000'
+    environment:
+      - ALIYUN_ACCESS_KEY_ID=xxxxx
+      - ALIYUN_ACCESS_KEY_SECRET=xxxxxx
+    restart: always
 ```
+
 ## Run Locally
 
 Clone the project, and run app.py
@@ -51,6 +53,17 @@ poetry install
 # run
 python3 app.py
 ```
+## Config
+
+**common environment variables:**
+
+- `FLASK_DEBUG` true or false to enable debug
+- `LOGGING_LEVEL` DEBUG|INFO|WARNING|ERROR|CRITICAL
+- `PORT` default 6000
+- `SENTRY_DSN` set this for use sentry to track errors
+
+**translation platforms tokens env vars:**   
+reference the detail documents in the  `docs` dir of this repo.
 
 ## Used By
 
