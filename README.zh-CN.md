@@ -34,7 +34,7 @@ poetry install
 python3 app.py
 ```
 
-打开项目主页(默认绑定到`5000`端口, 本地运行地址为`http://localhost:5000`), 输入待翻译的feed 地址,点击按钮即可自动生成翻译后的feed的链接.
+打开项目主页(默认绑定到`6000`端口, 本地运行地址为`http://localhost:6000`), 输入待翻译的feed 地址,点击按钮即可自动生成翻译后的feed的链接.
 链接默认访问自身的api接口去获取和翻译 feed 内容
 
 ## 当前支持的翻译平台
@@ -141,10 +141,11 @@ ALIYUN_ACCESS_KEY_ID="xxxxx"
 ALIYUN_ACCESS_KEY_SECRET="xxxxxx"
 ```
 
-
 一些可用来测试的feed:
+
 - https://feeds.feedburner.com/visualcapitalist
 - https://pytorch.org/feed.xml
+
 ## 协议
 
 [MIT](https://choosealicense.com/licenses/mit/)

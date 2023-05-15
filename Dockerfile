@@ -33,6 +33,6 @@ COPY --from=builder /app/.venv /app/.venv
 COPY . .
 
 ENV PATH="/app/.venv/bin:$PATH"
-EXPOSE 5000
+EXPOSE 6000
 CMD ["python", "./app.py"]
 

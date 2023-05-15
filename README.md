@@ -18,7 +18,7 @@ Translate your rss and atom feed in an easy way.
 Docker image is available [here](https://github.com/Colin-XKL/rss-feed-translator/pkgs/container/rss-feed-translator)
 
 ```shell
-sudo docker run -d --name rss-feed-translator -p 10050:5000 ghcr.io/colin-xkl/rss-feed-translator:v1.0.0
+sudo docker run -d --name rss-feed-translator -p 10050:6000 ghcr.io/colin-xkl/rss-feed-translator:v1.0.0
 ```
 docker compose example
 
@@ -29,7 +29,7 @@ services:
         image: 'ghcr.io/colin-xkl/rss-feed-translator:v1.0.0'
         container_name: feed-translator
         ports:
-            - '10050:5000'
+            - '10050:6000'
         environment:
             - ALIYUN_ACCESS_KEY_ID=xxxxx
             - ALIYUN_ACCESS_KEY_SECRET=xxxxxx

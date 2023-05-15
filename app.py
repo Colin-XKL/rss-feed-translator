@@ -66,5 +66,5 @@ def translate_test():
 
 
 if __name__ == '__main__':
-    app.run(debug=True if isDebug else False, port=int(port) if port.isdigit() else 5000, host='0.0.0.0')
+    app.run(debug=True if isDebug else False, port=int(port) if port.isdigit() else 6000, host='0.0.0.0')
     logging.info("rss-feed-translator started.")
