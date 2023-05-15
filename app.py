@@ -14,10 +14,25 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-isDebug = os.environ["FLASK_DEBUG"] == "true"
-logLevel = os.environ["LOGGING_LEVEL"] or "DEBUG"
-port = os.environ["PORT"] or "5000"
+isDebug = os.environ.get("FLASK_DEBUG") == "true"
+logLevel = os.environ.get("LOGGING_LEVEL", "DEBUG")
+port = os.environ.get("PORT", "6000")
 
+# load sentry if necessary
+if sentry_dsn := os.environ.get("SENTRY_DSN", None):
+    import sentry_sdk
+    from sentry_sdk.integrations.flask import FlaskIntegration
+
+    sentry_sdk.init(
+        dsn=sentry_dsn,
+        integrations=[
+            FlaskIntegration(),
+        ],
+        traces_sample_rate=1.0
+    )
+    logging.info("sentry loaded.")
+
+# load main app
 app = Flask(__name__)
 
 logging.basicConfig(level=logLevel, format='%(asctime)s %(levelname)s %(message)s')

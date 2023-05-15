@@ -13,6 +13,7 @@ xmltodict = "^0.13.0"
 alibabacloud-tea-openapi = "^0.3.7"
 alibabacloud-alimt20181012 = "^1.1.0"
 python-dotenv = "^1.0.0"
+sentry-sdk = {extras = ["flask"], version = "^1.23.0"}
 
 
 [build-system]
