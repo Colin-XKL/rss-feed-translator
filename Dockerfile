@@ -19,7 +19,7 @@ WORKDIR /app
 COPY pyproject.toml poetry.lock ./
 RUN --mount=type=cache,target=/root/.cache/pypoetry \
     poetry config virtualenvs.in-project true && \
-    poetry install --no-ansi --no-dev --no-interaction --no-root
+    poetry install --no-dev --no-ansi --no-interaction --no-root
 
 # -------
 
@@ -28,11 +28,13 @@ FROM python:3.9.6-alpine as prd
 ENV FLASK_ENV=production
 ENV FLASK_DEBUG=False
 
-WORKDIR /app
-COPY --from=builder /app/.venv /app/.venv
-COPY . .
+RUN addgroup -S rssman && adduser -S rssman -G rssman
 
-ENV PATH="/app/.venv/bin:$PATH"
+WORKDIR /app
+COPY --from=builder --chown=rssman:rssman /app/.venv /app/.venv
+COPY --chown=rssman:rssman . .
+
+ENV PATH="$PATH:/app/.venv/bin"
 EXPOSE 6000
 CMD ["python", "./app.py"]
 
