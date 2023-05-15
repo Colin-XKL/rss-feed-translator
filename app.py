@@ -18,6 +18,9 @@ isDebug = os.environ.get("FLASK_DEBUG") == "true"
 logLevel = os.environ.get("LOGGING_LEVEL", "DEBUG")
 port = os.environ.get("PORT", "6000")
 
+# set logging
+logging.basicConfig(level=logLevel, format='%(asctime)s %(levelname)s %(message)s')
+
 # load sentry if necessary
 if sentry_dsn := os.environ.get("SENTRY_DSN", None):
     import sentry_sdk
@@ -34,8 +37,6 @@ if sentry_dsn := os.environ.get("SENTRY_DSN", None):
 
 # load main app
 app = Flask(__name__)
-
-logging.basicConfig(level=logLevel, format='%(asctime)s %(levelname)s %(message)s')
 
 
 @app.route('/')
