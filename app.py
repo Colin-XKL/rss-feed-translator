@@ -1,5 +1,7 @@
 from __future__ import annotations
 import logging
+import os
+
 import requests
 import xmltodict
 from flask import Flask, request, Response, render_template
@@ -7,9 +9,18 @@ from flask import Flask, request, Response, render_template
 from lib.feed_transformers.utils import translate_feed
 from lib.translators.common import translate_html
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
+# load env
+from dotenv import load_dotenv
+
+load_dotenv()
+
+isDebug = os.environ["FLASK_DEBUG"] == "true"
+logLevel = os.environ["LOGGING_LEVEL"] or "DEBUG"
+port = os.environ["PORT"] or "5000"
 
 app = Flask(__name__)
+
+logging.basicConfig(level=logLevel, format='%(asctime)s %(levelname)s %(message)s')
 
 
 @app.route('/')
@@ -55,5 +66,5 @@ def translate_test():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000, host='0.0.0.0')
+    app.run(debug=True if isDebug else False, port=int(port) if port.isdigit() else 5000, host='0.0.0.0')
     logging.info("rss-feed-translator started.")

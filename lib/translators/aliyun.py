@@ -38,8 +38,6 @@ class AliyunTranslator:
         _id = access_key_id
         _secret = access_key_secret
         try:
-            from dotenv import load_dotenv
-            load_dotenv()
             # read credentials from env
 
             if not _id:
