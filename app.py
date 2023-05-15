@@ -37,6 +37,7 @@ if sentry_dsn := os.environ.get("SENTRY_DSN", None):
 
 # load main app
 app = Flask(__name__)
+logging.info("rss-feed-translator started.")
 
 
 @app.route('/')
@@ -83,4 +84,3 @@ def translate_test():
 
 if __name__ == '__main__':
     app.run(debug=True if isDebug else False, port=int(port) if port.isdigit() else 6000, host='0.0.0.0')
-    logging.info("rss-feed-translator started.")
