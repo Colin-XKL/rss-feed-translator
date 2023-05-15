@@ -34,7 +34,7 @@ WORKDIR /app
 COPY --from=builder --chown=rssman:rssman /app/.venv /app/.venv
 COPY --chown=rssman:rssman . .
 
-ENV PATH="$PATH:/app/.venv/bin"
+ENV PATH="/app/.venv/bin:$PATH"
 EXPOSE 6000
 CMD ["python", "./app.py"]
 
