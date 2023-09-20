@@ -73,7 +73,7 @@ This project is used by the following projects:
 
 ## Currently supported translator
 
-- DeelL (Free, slow)
+- DeepL (Free, slow)
 - Aliyun (Token needed, fast, free tier available)
 
 ## Screenshots
