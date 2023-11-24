@@ -13,9 +13,29 @@
 - 支持自定义翻译平台的密钥, 以便获得更好的翻译体验
 - 默认调用免费的翻译平台接口, 你可以快速上手试用
 
-## 安装
+## 安装使用
+Docker 镜像地址 [here](https://github.com/Colin-XKL/rss-feed-translator/pkgs/container/rss-feed-translator)
 
-Docker 镜像正在开发中...
+```shell
+sudo docker run -d --name rss-feed-translator -p 10050:6000 ghcr.io/colin-xkl/rss-feed-translator:v1.0.0
+```
+
+docker compose 方式
+
+```yaml
+version: '3.3'
+services:
+  rss-feed-translator:
+    image: 'ghcr.io/colin-xkl/rss-feed-translator:v1.0.0'
+    container_name: feed-translator
+    ports:
+      - '10050:6000'
+    environment:
+      - ALIYUN_ACCESS_KEY_ID=xxxxx
+      - ALIYUN_ACCESS_KEY_SECRET=xxxxxx
+    restart: always
+```
+
 
 ## 本地运行
 
